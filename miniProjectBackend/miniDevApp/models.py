@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from django.db import models
 
 # Create your models here.
@@ -22,6 +23,14 @@ class BottleInfo(models.Model):
     sendTimestamp = models.DateField(auto_now= True)
     def __str__(self):
         return self.bottleId
+    def getDict(self):
+        info = dict()
+        info["itemId"] = self.bottleId
+        info["itemName"] = self.bottleName
+        info["itemDesc"] = self.bottleInfo
+        info["imgUrl"] = self.bottleImageUrl
+        info["itemStatus"] = self.bottleStatus
+        return info
 
 
 

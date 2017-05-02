@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from miniDevApp import views as miniDevApp_views 
 
 urlpatterns = [
+    url(r'^getItemList/$', miniDevApp_views.getItemList, name='getItemList'),
     url(r'^admin/', admin.site.urls),
 ]
