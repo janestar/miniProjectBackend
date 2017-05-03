@@ -5,6 +5,7 @@ import simplejson
 from miniDevApp.models import BottleInfo
 
 # Create your views here.
+
 def getItemList(request):
     type = request.GET['type']
     if type == '1':
@@ -13,3 +14,13 @@ def getItemList(request):
         for bottle in bottles:
             bottle_list.append(bottle.getDict())
         return HttpResponse(simplejson.dumps({"itemList":bottle_list}, ensure_ascii=False))        
+
+
+
+def getItemDetail(request):
+    itemId = request.GET['itemId']
+    bottle_info = BottleInfo.objects.filter(bottleId=itemId)
+    bottle_list = []
+    for bottle in bottle_info:
+        bottle_list.append(bottle.getDict())
+    return HttpResponse(simplejson.dumps(bottle_list, ensure_ascii=False))

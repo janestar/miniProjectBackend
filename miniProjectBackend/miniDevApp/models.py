@@ -34,6 +34,7 @@ class BottleInfo(models.Model):
 
 
 
+
 class WishList(models.Model):
     wish_bottleId = models.BigAutoField(default=1, primary_key=True)
     wishUserInfo = models.ForeignKey(UserInfo, on_delete=models.PROTECT)
