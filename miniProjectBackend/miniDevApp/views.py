@@ -24,3 +24,7 @@ def getItemDetail(request):
     for bottle in bottle_info:
         bottle_list.append(bottle.getDict())
     return HttpResponse(simplejson.dumps(bottle_list, ensure_ascii=False))
+
+# def confirm():
+    itemId = request.POST['itemId']
+    
