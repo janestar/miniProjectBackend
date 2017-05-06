@@ -20,7 +20,6 @@ from miniDevApp import views as miniDevApp_views
 urlpatterns = [
     url(r'^getItemList/$', miniDevApp_views.getItemList, name='getItemList'),
     url(r'^getItemDetail/$', miniDevApp_views.getItemDetail, name='getItemDetail'),
-    url(r'^confirm/$',miniDevApp_views.confirmBargain,name='confirmBargain'),
-    url(r'^cancel/$',miniDevApp_views.cancelBargain,name='cancelBargain'),
+    url(r'^confirm/$', miniDevApp_views.confirmBargain, name='confirmBargain'),
     url(r'^admin/', admin.site.urls),
 ]
