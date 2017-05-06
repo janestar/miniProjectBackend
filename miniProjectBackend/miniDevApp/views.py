@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import simplejson
 from miniDevApp.models import BottleInfo
+from miniDevApp.models import WishList
 
 # Create your views here.
 
@@ -14,7 +15,15 @@ def getItemList(request):
         for bottle in bottles:
             bottle_list.append(bottle.getDict())
         return HttpResponse(simplejson.dumps({"itemList":bottle_list}, ensure_ascii=False))        
-
+    if type == '2':
+        wishes = WishList.objects.filter(wishUserInfo="427290210")
+        bottle_list = []
+        for wish in wishes:
+            bottle = BottleInfo.objects.get(bottleId=wish.wish_bottleId)
+            bottle_info = bottle.getDict()
+            bottle_info["itemStatus"] = wish.bottleStatus
+            bottle_list.append(bottle_info)
+        return HttpResponse(simplejson.dumps({"itemList":bottle_list}, ensure_ascii=False))
 
 
 def getItemDetail(request):
