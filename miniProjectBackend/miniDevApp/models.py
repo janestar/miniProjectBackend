@@ -31,6 +31,19 @@ class BottleInfo(models.Model):
         info["imgUrl"] = self.bottleImageUrl
         info["itemStatus"] = self.bottleStatus
         return info
+    def randomChooseBottle(self):
+
+        randomBottle = dict()
+        randomBottle["action"]="get"
+        randomBottle["resetStatus"]="1"
+        randomBottle["message"]="ok"
+        randomBottle["bottleId"]="123"
+        randomBottle["bottleName"]="test"
+        randomBottle["bottlePrice"]="10"
+        randomBottle["bottleInfo"]="test111"
+        randomBottle["bottleImage"]="test/test.jpg"
+        randomBottle["sendTimestamp"]="12:13:14"
+        return randomBottle
 
 
 

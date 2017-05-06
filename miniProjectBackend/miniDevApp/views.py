@@ -5,7 +5,7 @@ from django.http import HttpResponse
 import json
 from miniDevApp.models import BottleInfo
 from miniDevApp.models import WishList
-
+from miniDevApp.bottleform import bottleForm
 # Create your views here.
 def getItemList(request):
     type = request.GET['type']
@@ -51,7 +51,9 @@ def confirmBargain(request):
     bargainStatus = dict()
     bargainStatus['ret']='0'
     bargainStatus['ret_msg']='你好'
-    return HttpResponse(json.dumps(bargainStatus, ensure_ascii=False))
+    response= HttpResponse(json.dumps(bargainStatus, ensure_ascii=False))
+    response['Access-Ctrol-Allow-Origin']='*'
+    return response
 
 def cancelBargain(request):
     itemId = request.POST['itemId']
@@ -63,3 +65,8 @@ def cancelBargain(request):
     bargainStatus['ret']='0'
     bargainStatus['ret_msg']='ok'
     return HttpResponse(json.dumps(bargainStatus, ensure_ascii=False))
+
+
+
+
+
