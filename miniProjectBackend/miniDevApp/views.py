@@ -5,7 +5,8 @@ from django.http import HttpResponse
 import json
 from miniDevApp.models import BottleInfo
 from miniDevApp.models import WishList
-
+from miniDevApp.models import UserInfo
+from miniDevApp.bottleform import bottleForm
 # Create your views here.
 def getItemList(request):
     type = request.GET['type']
@@ -51,7 +52,9 @@ def confirmBargain(request):
     bargainStatus = dict()
     bargainStatus['ret']='0'
     bargainStatus['ret_msg']='你好'
-    return HttpResponse(json.dumps(bargainStatus, ensure_ascii=False))
+    response= HttpResponse(json.dumps(bargainStatus, ensure_ascii=False))
+    response['Access-Ctrol-Allow-Origin']='*'
+    return response
 
 def cancelBargain(request):
     itemId = request.POST['itemId']
@@ -63,3 +66,49 @@ def cancelBargain(request):
     bargainStatus['ret']='0'
     bargainStatus['ret_msg']='ok'
     return HttpResponse(json.dumps(bargainStatus, ensure_ascii=False))
+
+
+def getBottle(request):
+    if(request.method=='POST'):
+        form = bottleForm(request.POST)
+        if form.is_valid():
+           action = form.cleaned_data['action']
+           uid = form.cleaned_data['uid']
+           bottleId = form.cleaned_data['bottleId']
+           bottleStatus = form.cleaned_data['bottleStatus']
+           bottle_list = []
+           if(action == "get"):
+               bottle_info = BottleInfo.objects.filter(bottleId=111)
+               for bottle in bottle_info:
+                   bottle_list.append(bottle.randomChooseBottle(action))
+           else:
+               randomBottle = dict()
+               randomBottle["action"] = "get"
+               randomBottle["resetStatus"] = "1"
+               randomBottle["message"] = "ok"
+               bottle_list.append(randomBottle)
+           return HttpResponse(json.dumps(bottle_list, ensure_ascii=False))
+
+
+def updateUserInfo(request):
+    if(request.method=='POST'):
+        data = json.loads(request.body)
+        uid = data['uid']
+        #user = null
+        users = UserInfo.objects.filter(qqId=uid)
+        if not users:
+            user = UserInfo()
+        else:
+            user = users[0]
+        user.qqId = data['uid']
+        user.phoneNumber = data['phoneNumber']
+        user.userAddress = data['userAddress']
+        user.userPostion = data['userPosition']
+        user.userImageUrl = data['userImageUrl']
+        user.userNickName = data['userNickName']
+        user.save()
+        
+        updateStatus = dict()
+        updateStatus['ret']='0'
+        updateStatus['ret_msg']='ok'
+    return HttpResponse(json.dumps(updateStatus, ensure_ascii=False)) 

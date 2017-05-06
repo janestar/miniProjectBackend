@@ -21,5 +21,7 @@ urlpatterns = [
     url(r'^getItemList/$', miniDevApp_views.getItemList, name='getItemList'),
     url(r'^getItemDetail/$', miniDevApp_views.getItemDetail, name='getItemDetail'),
     url(r'^confirm/$', miniDevApp_views.confirmBargain, name='confirmBargain'),
+    url(r'^getBottle/$',miniDevApp_views.getBottle,name='getBottle'),
+    url(r'^updateUserInfo/$',miniDevApp_views.updateUserInfo,name='updateUserInfo'),
     url(r'^admin/', admin.site.urls),
 ]
