@@ -7,7 +7,8 @@ class UserInfo(models.Model):
     phoneNumber = models.CharField(max_length=20)
     userAddress = models.CharField(max_length=100)
     userPostion = models.CharField(max_length=100)
-    userImageUrl = models.CharField(max_length=100)
+    #userImageUrl = models.CharField(max_length=100)
+    userImageUrl = models.FileField(upload_to = './bottlepicture/')
     userNickName = models.CharField(max_length=20)
     def __str__(self):
         return self.userNickName
