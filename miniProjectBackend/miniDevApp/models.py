@@ -11,6 +11,15 @@ class UserInfo(models.Model):
     userNickName = models.CharField(max_length=20)
     def __str__(self):
         return self.userNickName
+    def getDict(self):
+        info = dict()
+        info["qqId"] = self.qqId
+        info["phoneNumber"] = self.phoneNumber
+        info["userAddress"] = self.userAddress
+        info["userPostion"] = self.userPostion
+        info["userImageUrl"] = self.userImageUrl
+        info["userNickName"] = self.userNickName
+        return info
 
 class BottleInfo(models.Model):
     bottleId = models.BigAutoField(default=1, primary_key=True)
@@ -31,6 +40,19 @@ class BottleInfo(models.Model):
         info["imgUrl"] = self.bottleImageUrl
         info["itemStatus"] = self.bottleStatus
         return info
+    def randomChooseBottle(self):
+
+        randomBottle = dict()
+        randomBottle["action"]="get"
+        randomBottle["resetStatus"]="1"
+        randomBottle["message"]="ok"
+        randomBottle["bottleId"]="123"
+        randomBottle["bottleName"]="test"
+        randomBottle["bottlePrice"]="10"
+        randomBottle["bottleInfo"]="test111"
+        randomBottle["bottleImage"]="test/test.jpg"
+        randomBottle["sendTimestamp"]="12:13:14"
+        return randomBottle
 
 
 

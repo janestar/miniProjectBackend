@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^confirm/$', miniDevApp_views.confirmBargain, name='confirmBargain'),
     url(r'^getBottle/$',miniDevApp_views.getBottle,name='getBottle'),
     url(r'^updateUserInfo/$',miniDevApp_views.updateUserInfo,name='updateUserInfo'),
+    url(r'^getUserInfo/$',miniDevApp_views.getUserInfo,name='getUserInfo'),
     url(r'^admin/', admin.site.urls),
 ]

@@ -112,3 +112,23 @@ def updateUserInfo(request):
         updateStatus['ret']='0'
         updateStatus['ret_msg']='ok'
     return HttpResponse(json.dumps(updateStatus, ensure_ascii=False)) 
+
+
+## 验证函数，非API
+def matchAuthCode(code):
+    '''return True or False'''
+    return True
+
+def getUserInfo(request):
+    if(request.method=='POST'):
+        data = json.loads(request.body)
+        uid = data['uid']
+        code = data['authCode']
+        info = dict()
+        if matchAuthCode(code):
+            info = UserInfo.objects.get(qqId=uid).getDict()
+            bottles = BottleInfo.objects.filter(bottleUserInfo=uid)
+            wishes = WishList.objects.filter(wishUserInfo=uid)
+            info["throwBottleNum"] = len(bottles)
+            info["gettingBottleNum"] = len(wishes)
+        return HttpResponse(json.dumps(info, ensure_ascii=False));
