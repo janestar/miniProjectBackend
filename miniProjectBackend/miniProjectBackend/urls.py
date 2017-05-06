@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^getBottle/$',miniDevApp_views.getBottle,name='getBottle'),
     url(r'^updateUserInfo/$',miniDevApp_views.updateUserInfo,name='updateUserInfo'),
     url(r'^getUserInfo/$',miniDevApp_views.getUserInfo,name='getUserInfo'),
+    url(r'^report/$',miniDevApp_views.report,name='report'),
     url(r'^admin/', admin.site.urls),
     url(r'^throwBottle/$',miniDevApp_views.throwBottle,name='throwBottle'),
     

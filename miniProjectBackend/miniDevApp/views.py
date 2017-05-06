@@ -247,6 +247,26 @@ def getUserInfo(request):
             info["throwBottleNum"] = len(bottles)
             info["gettingBottleNum"] = len(wishes)
         return HttpResponse(json.dumps(info, ensure_ascii=False));
+
+def report(request):
+    if(request.method=='POST'):
+        data = json.loads(request.body)
+        uid = data['uid']
+        bottleId = data['bottleId']
+        reports = ReportList.objects.filter(report_bottleId=bottleId, qqId=uid)
+        reportStatus = dict()
+        if reports:
+            reportStatus['ret']='1'
+            reportStatus['ret_msg']='你已举报过'
+        else:
+            report=ReportList()
+            report.report_bottleId = bottleId
+            report.qqId = UserInfo.objects.get(qqId=uid)
+            report.save()
+            reportStatus['ret']='0'
+            reportStatus['ret_msg']='ok'
+        return HttpResponse(json.dumps(reportStatus, ensure_ascii=False))
+
 # 抛瓶子
 def throwBottle(request):
     bf = BottleForm(request.POST,request.FILES)
