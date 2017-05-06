@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^updateUserInfo/$',miniDevApp_views.updateUserInfo,name='updateUserInfo'),
     url(r'^getUserInfo/$',miniDevApp_views.getUserInfo,name='getUserInfo'),
     url(r'^admin/', admin.site.urls),
+    url(r'^throwBottle/$',miniDevApp_views.throwBottle,name='throwBottle'),
+    
 ]
