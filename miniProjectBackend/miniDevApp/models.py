@@ -1,6 +1,5 @@
 # -*- coding:utf-8 -*-
 from django.db import models
-
 # Create your models here.
 class UserInfo(models.Model):
     qqId = models.CharField(max_length=50,primary_key=True)
@@ -22,7 +21,7 @@ class UserInfo(models.Model):
         return info
 
 class BottleInfo(models.Model):
-    bottleId = models.BigAutoField(default=1, primary_key=True)
+    bottleId = models.BigAutoField(primary_key=True)
     bottleUserInfo = models.ForeignKey(UserInfo,on_delete=models.PROTECT)
     bottleName = models.CharField(max_length=30)
     bottleStatus = models.IntegerField()

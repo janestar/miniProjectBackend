@@ -6,10 +6,12 @@ import json
 from miniDevApp.models import BottleInfo
 from miniDevApp.models import WishList
 from miniDevApp.models import UserInfo
-from miniDevApp.bottleform import bottleForm
+#from miniDevApp.bottleform import bottleForm
 from miniDevApp.models import ReportList
 from django import forms
-
+import os
+import time
+import sys
 class BottleForm(forms.Form):
     #bottleId = forms.BigAutoField()
     bottleId = forms.IntegerField()
@@ -20,18 +22,18 @@ class BottleForm(forms.Form):
     bottleInfo = forms.CharField()
     bottleImageUrl = forms.FileField()
     sendTimestamp = forms.DateField()
-
 # Create your views here.
+
 def getItemList(request):
     type = request.GET['type']
     if type == '1':
-        bottles = BottleInfo.objects.filter(bottleUserInfo="427290210")
+        bottles = BottleInfo.objects.filter(bottleUserInfo="111111")
         bottle_list = []
         for bottle in bottles:
             bottle_list.append(bottle.getDict())
         return HttpResponse(json.dumps({"itemList":bottle_list}, ensure_ascii=False))        
     if type == '2':
-        wishes = WishList.objects.filter(wishUserInfo="427290210")
+        wishes = WishList.objects.filter(wishUserInfo="111115")
         bottle_list = []
         for wish in wishes:
             bottle = BottleInfo.objects.get(bottleId=wish.wish_bottleId)
@@ -147,8 +149,13 @@ def getUserInfo(request):
             info["gettingBottleNum"] = len(wishes)
         return HttpResponse(json.dumps(info, ensure_ascii=False));
 # 抛瓶子
-def throwBottle(request):
+
+def throwBottle1(request):
     bf = BottleForm(request.POST,request.FILES)
+    print request.method == 'POST'
+    print request.POST
+    print request.FILES
+    print bf.is_valid()
     if bf.is_valid():
         #bottle = BottleInfo()
         #bootle.bottleId = bf.cleaned_data['bottleId']
@@ -168,10 +175,59 @@ def throwBottle(request):
         Info = bf.cleaned_data['bottleInfo']
         ImageUrl = bf.cleaned_data['bottleImage']
         SendTimestamp = bf.cleaned_data['sendTimestamp']
-        bottle = BottleInfo(bottleId = Id, bottleUserInfo = UserInfo, bottleName = Name, bootleStatus = Status, bootlePrice = Price, bottleInfo = Info, bottleImageUrl = ImageUrl, sendTimeStamp = SendTimeStamp)
+        bottle = BottleInfo(bottleId = 1, bottleUserInfo = UserInfo, bottleName = Name, bootleStatus = Status, bootlePrice = Price, bottleInfo = Info, bottleImageUrl = ImageUrl, sendTimeStamp = SendTimeStamp)
         bottle.save()
-        throwBottleStatus = dict()
-        throwBottleStatus['ret']='0'
-        throwBottleStatus['ret_msg']='ok'
-        return HttpResponse(json.dumps(throwBottleStatus, ensure_ascii=False))
-                                                                                           
+    throwBottleStatus = dict()
+    throwBottleStatus['ret']='0'
+    throwBottleStatus['ret_msg']='上传成功'
+    return HttpResponse(json.dumps(throwBottleStatus, ensure_ascii=False))                                                                                           
+
+def throwBottle(request):
+    #bf = BottleForm(request.POST,request.FILES)
+    #print bf.is_valid()
+        #bottle = BottleInfo()
+        #bootle.bottleId = bf.cleaned_data['bottleId']
+        #uid = uf.cleaned_data['uid']
+        #bottle.bottleName = bf.cleaned_data['bottleName']
+        #bottle.bottleStatus = bf.cleaned_data['bottleStatus']
+        #bottle.bottlePrice = bf.cleaned_data["bottlePrice"]
+        #bottle.bottleInfo = bf.cleaned_data['bottleInfo']
+        #bottle.bottleImageUrl = bf.cleaned_data['bottleImage']
+        #bottle.sendTimestamp = bf.cleaned_data['sendTimestamp']
+        #Id = bf.cleaned_data['bottleId']
+        #uid = bf.cleaned_data['uid']
+        #UserInfo = UserInfo.objects.get(qqId = uid)
+        #Name = bf.cleaned_data['bottleName']
+        #Status = bf.cleaned_data['bottleStatus']
+        #Price = bf.cleaned_data["bottlePrice"]
+        #Info = bf.cleaned_data['bottleInfo']
+        #ImageUrl = bf.cleaned_data['bottleImage']
+        #SendTimestamp = bf.cleaned_data['sendTimestamp']
+        #bottle = BottleInfo(bottleId = Id, bottleUserInfo = UserInfo, bottleName = Name, bootleStatus = Status, bootlePrice = Price, bottleInfo = Info, bottleImageUrl = ImageUrl, sendTimeStamp = SendTimeStamp)
+    #print request.POST
+    bottleForm = request.POST['p']
+    bottleForm = json.loads(bottleForm)
+    uid = bottleForm['uid']
+    Id = bottleForm['bottleId']
+    Name = bottleForm["bottleName"]
+    Status = bottleForm["bottleStatus"]
+    Price = bottleForm["bottlePrice"]
+    Info = bottleForm["bottleInfo"]
+    User = UserInfo.objects.get(qqId = uid)
+    path_image = os.getcwd()
+    path_image = path_image +"/image/"
+    SendTimestamp = bottleForm['sendTimestamp']
+    myFile = request.FILES.get("bottleImage")
+    image_name = myFile.name.split('.')[0] + uid + str(int(time.time())) + ".png"
+    dest = open(os.path.join(path_image,image_name),'wb+')
+    for chunk in myFile.chunks():
+        dest.write(chunk)
+    dest.close()
+    image_name = path_image + image_name  
+    bottle = BottleInfo(bottleUserInfo = User, bottleName = Name, bottleStatus = Status, bottlePrice = Price, bottleInfo = Info, bottleImageUrl = image_name, sendTimestamp = SendTimestamp)
+    bottle.save()
+    throwBottleStatus = dict()
+    throwBottleStatus['ret']='0'
+    throwBottleStatus['ret_msg']='上传成功'
+    return HttpResponse(json.dumps(throwBottleStatus, ensure_ascii=False))
+
