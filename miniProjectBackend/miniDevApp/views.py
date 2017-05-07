@@ -171,10 +171,7 @@ def getItemList(request):
 def getItemDetail(request):
     itemId = request.GET['itemId']
     bottle_info = BottleInfo.objects.filter(bottleId=itemId)
-    bottle_list = []
-    for bottle in bottle_info:
-        bottle_list.append(bottle.getDict())
-    return HttpResponse(json.dumps(bottle_list, ensure_ascii=False))
+    return HttpResponse(json.dumps(bottle_info[0].getDict(), ensure_ascii=False))
 
 
 

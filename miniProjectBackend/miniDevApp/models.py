@@ -40,6 +40,8 @@ class BottleInfo(models.Model):
         info["itemDesc"] = self.bottleInfo
         info["imgUrl"] = self.bottleImageUrl
         info["itemStatus"] = self.bottleStatus
+        info["bottlePrice"] = self.bottlePrice
+        info["sendTimestamp"] = self.sendTimestamp
         return info
     def randomChooseBottle(self):
 
