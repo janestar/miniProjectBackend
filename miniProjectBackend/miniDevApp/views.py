@@ -57,9 +57,13 @@ def randomAlgorithm(pos):
     #longandlat =  pos.split(",")
     rows = BottleInfo.objects.filter().count()
     print("rows is %d"%rows)
-    randnum = random.randint(0,rows-1)
-    bottleobj = BottleInfo.objects.all()[randnum]
-    return bottleobj
+
+    while True:
+        randnum = random.randint(0,rows-1)
+        bottleobj = BottleInfo.objects.all()[randnum]
+        if bottleobj.bottleStatus != '1':
+            return bottleobj
+    return None
 
 def randomChooseBottleId(userid):
       user_info_set =  UserInfo.objects.filter(qqId=userid)
